@@ -10,9 +10,9 @@ spring:
             client-id: userinfo
             client-secret: 123456
             authorization-grant-type: authorization_code
-            redirect-uri: www.baidu.com # '{baseUrl}/login/oauth2/code/{registrationId}'
-#            client-name: Customize
+            redirect-uri: 'http://127.0.0.1:8080/login/oauth2/code'
             scope:
+              - openid
               - userinfo
         provider:
           customize:

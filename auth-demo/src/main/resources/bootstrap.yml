@@ -1,0 +1,18 @@
+server:
+  port: 60001
+spring:
+  application:
+    name: snow-auth
+  profiles:
+    active: dev  # 开发环境
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  cloud:
+    nacos:
+      discovery:
+        server-addr: nacos.lonelysnow.cn:80
+        namespace: df184792-18ec-4457-84af-27f2c3704800

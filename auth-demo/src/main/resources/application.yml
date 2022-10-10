@@ -1,0 +1,24 @@
+spring:
+#  main:
+#    allow-circular-references: true # 自动中断循环依赖
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://mysql.lonelysnow.cn:3306/snow_auth?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+#    username: lonelysnow
+#    password: W.12530798
+#  redis:
+#    host: 49.233.26.144
+#    port: 6379
+#    password: W.12530798
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:60001
+##  security:
+##    oauth2:
+##      client:
+##        registration:
+##          github:
+##            client-id: c01a547c87dce1ccfcc1
+##            client-secret: c2d0f40a62a30c7f211643d7516630184c2d3065

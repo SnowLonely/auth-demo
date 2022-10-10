@@ -79,7 +79,6 @@ public class SecurityConfig {
                 .antMatchers(
                         "/auth/login",
                         "/error",
-                        "/oauth2/**",
                         "/.well-known/**",
                         "userinfo"
                 );
@@ -102,6 +101,7 @@ public class SecurityConfig {
 
         // 配置过滤放行
         http.authorizeRequests()
+                .antMatchers("/oauth2/**").permitAll()
                 // 动态配置访问权限
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override

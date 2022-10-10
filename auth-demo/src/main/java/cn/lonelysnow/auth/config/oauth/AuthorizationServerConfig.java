@@ -1,5 +1,6 @@
 package cn.lonelysnow.auth.config.oauth;
 
+
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
@@ -28,29 +29,12 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
 
-/**
- * @author LonelySnow
- * @classname AuthorizationConfig
- * @description 授权服务配置
- * @date 2022/10/10 09:39
- */
 @EnableWebSecurity
-public class AuthorizationServiceConfig extends OAuth2AuthorizationServerConfiguration {
+public class AuthorizationServerConfig extends OAuth2AuthorizationServerConfiguration {
 
-    // @Bean
-    // @Order(1)
-    // public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
-    //     OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-    //     http
-    //             .exceptionHandling((exceptions) -> exceptions
-    //                     .authenticationEntryPoint(
-    //                             // 未通过身份验证时重定向到登录页面授权端点
-    //                             new LoginUrlAuthenticationEntryPoint("/login"))
-    //             );
-    //
-    //     return http.build();
-    // }
-
+    /**
+     * 协议端点 安全过滤器链
+     */
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -58,25 +42,22 @@ public class AuthorizationServiceConfig extends OAuth2AuthorizationServerConfigu
         return http.formLogin(Customizer.withDefaults()).csrf().disable().build();
     }
 
+    /**
+     * 用于管理和存储客户端 目前支持mysql和 内存
+     *
+     * @return
+     */
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
         RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
-                // 客户端标识
                 .clientId("userinfo")
-                // 应用客户端凭证
                 .clientSecret("{noop}123456")
-                // 通过Basic Auth方式
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                // 授权类型
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                // 认证通过之后redirect的uri，接收授权码使用
                 .redirectUri("http://127.0.0.1:8080/login/oauth2/code")
-                .redirectUri("http://localhost:8080/login/oauth2/code")
-                // 重定向地址：便于调试授权码流程
                 // .redirectUri("https://www.baidu.com")
-                // 授权范围
                 .scope(OidcScopes.OPENID)
                 .scope("userinfo")
                 .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
@@ -123,7 +104,7 @@ public class AuthorizationServiceConfig extends OAuth2AuthorizationServerConfigu
 
     /**
      * 用于配置授权服务器的授权端点
-     * @see ProviderSettings#builder()
+     *
      */
     @Bean
     public ProviderSettings providerSettings() {
