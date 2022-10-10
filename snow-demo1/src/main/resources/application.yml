@@ -1,0 +1,23 @@
+server:
+  port: 8080
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          customize: # 自定义的地址
+            client-id: userinfo
+            client-secret: 123456
+            authorization-grant-type: authorization_code
+            redirect-uri: www.baidu.com # '{baseUrl}/login/oauth2/code/{registrationId}'
+#            client-name: Customize
+            scope:
+              - userinfo
+        provider:
+          customize:
+            authorization-uri: http://localhost:60001/oauth2/authorize
+            token-uri: http://localhost:60001/oauth2/token
+            user-info-uri: http://localhost:60001/userinfo
+#            user-name-attribute: username
+

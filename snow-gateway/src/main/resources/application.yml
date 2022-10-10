@@ -1,0 +1,38 @@
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      default-filters: # 配置全局默认过滤器
+        - AddRequestHeader=Truth,addHeader OK
+      globalcors:
+        add-to-simple-url-handler-mapping: true # 解决options请求被拦截的问题
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: # 允许那些网站的跨域请求
+              - "http://localhost:8090"
+              - "http://lonelysnow.cn"
+            allowedMethods: # 允许的跨域Ajax请求方式
+              - "GET"
+              - "POST"
+              - "DELETE"
+              - "PUT"
+              - "OPTIONS"
+            allowedHeaders: "*" # 允许在请求中携带头信息
+            allowCredentials: true # 是否允许携带Cookie
+            maxAge: 36000 # 这次跨域检测的有效期
+      routes:  # 网关路由配置
+        - id: user-service # 路由id，自定义，只要唯一即可
+          uri: lb://user-service # 路由目标地址 lb是负载均衡，后面跟随服务名称 强烈推荐
+          predicates: # 路由断言，也就是判断请求是否符合路由规则的条件
+            - Path=/user/** # 这格式按照路径匹配，只要是以/user/开头的就符合要求
+          filters: # 只给userService加请求头
+            - RewritePath=/user(?<segment>/?.*), $\{segment} # 重写路由，删除user
+        - id: order
+          uri: lb://order-service
+          predicates:
+            - Path=/order/**
+          filters:
+            - RewritePath=/order(?<segment>/?.*), $\{segment}

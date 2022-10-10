@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lonelysnow.auth.mapper.RoleMapper">
+
+    <select id="getRoleMarkByUserId" resultType="java.lang.String">
+        SELECT
+            ar.mark
+        FROM
+            auth_role ar
+                LEFT JOIN auth_user_role aur ON ar.id = aur.role_id
+        WHERE
+            aur.user_id = #{id}
+    </select>
+
+    <select id="getRoleNamesByMenuId" resultType="java.lang.String">
+        SELECT
+            ar.mark
+        FROM
+            auth_role ar
+                LEFT JOIN auth_role_menu arm ON ar.id = arm.role_id
+        WHERE
+            arm.menu_id = #{menuId}
+    </select>
+
+</mapper>
