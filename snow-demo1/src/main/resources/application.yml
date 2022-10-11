@@ -6,18 +6,32 @@ spring:
     oauth2:
       client:
         registration:
-          customize: # 自定义的地址
-            client-id: userinfo
-            client-secret: 123456
+          messaging-client-oidc:
+            provider: spring
+            client-id: messaging-client
+            client-secret: secret
             authorization-grant-type: authorization_code
-            redirect-uri: 'http://127.0.0.1:8080/login/oauth2/code'
-            scope:
-              - openid
-              - userinfo
+            redirect-uri: "http://127.0.0.1:8080/login/oauth2/code/{registrationId}"
+            scope: openid
+            client-name: messaging-client-oidc
+          messaging-client-authorization-code:
+            provider: spring
+            client-id: messaging-client
+            client-secret: secret
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://127.0.0.1:8080/authorized"
+            scope: message.read,message.write
+            client-name: messaging-client-authorization-code
+          messaging-client-client-credentials:
+            provider: spring
+            client-id: messaging-client
+            client-secret: secret
+            authorization-grant-type: client_credentials
+            scope: message.read,message.write
+            client-name: messaging-client-client-credentials
         provider:
-          customize:
-            authorization-uri: http://localhost:60001/oauth2/authorize
-            token-uri: http://localhost:60001/oauth2/token
-            user-info-uri: http://localhost:60001/userinfo
-#            user-name-attribute: username
+          spring:
+            issuer-uri: http://localhost:60001
 
+messages:
+  base-uri: http://127.0.0.1:8090/messages

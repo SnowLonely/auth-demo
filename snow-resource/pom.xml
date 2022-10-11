@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cn.lonelysnow.demo</groupId>
-    <artifactId>snow-demo1</artifactId>
+    <artifactId>snow-resource</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <parent>
@@ -34,11 +34,7 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webflux</artifactId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
         </dependency>
 
     </dependencies>
